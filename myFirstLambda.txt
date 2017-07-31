@@ -1,0 +1,69 @@
+=============================================
+To create a lambda function first define your
+lambda function.
+In this case is running on nodejs4.3 version
+My first lambda consist in return through context
+a string "Hello" + event.username + "!Today's date is"+
+new Date().toDateString()
+**username is passed throug aws lambda cli 
+
+1. define the js script as show avobe
+1.1 save the js in zip file
+2. define policy
+3. create a policy with the following command:
+aws iam create-role  \
+--role-name basic-lambda-role \
+--assume-role-policy-document file://policy.json
+4.save the arn key
+5. create lambda function using cli:
+ aws lambda create-function \
+ --region us-west-2 \
+ --function-name mySecondFunctionV2 \
+ --zip-file fileb://mySecondFunction.zip \
+ --role "here the arn" \
+ --handler index.handler \
+ --runtime nodejs4.3 \
+ --memory-size 128
+6. Invoke the function through aws cli
+aws lambda invoke \
+--invocation-type RequestResponse \
+--function-name mySecondFunctionV2 \
+--region us-west-2 \
+--log-type Tail \
+--payload '{"username":"Gonzalo Lopez Pinal"}' \
+outputV2.txt
+
+I have to create a secondFunctionV2 
+because little mistake in js file
+the only question until now:
+¿how to update function name without create another one ?
+
+another usefull comands are:
+
+aws list-functions
+aws get-function --function-name <Function_Name>
+[
+  "Code":
+	[
+	  "Location": bring a url of the zip code that is valid
+			for 10 min,
+	  "RepositoryType": S3
+	]
+  "Configuration" the same of below:
+]
+aws get-function-configuration
+[
+  "CodeSha256",
+  "CodeSize",
+  "Description",
+  "FunctionArn",
+  "FunctionName",
+  "Handler",
+  "LastModified",
+  "MemorySize",
+  "Role",
+  "Runtime",
+  "Timeout",
+  "Version"
+]
+
